@@ -1,1 +1,1 @@
-'''https://search.gwep.dev'''
+https://search.gwep.dev
