@@ -1,0 +1,9 @@
+{
+    "c": "Tech", // Category of the bang
+    "d": "www.01net.com", // main URL
+    "r": 4,
+    "s": "01net",
+    "sc": "Downloads (apps)",
+    "t": "01net", // The bang
+    "u": "http://www.01net.com/recherche/recherche.php?searchstring={{{s}}}&chaine=home" // URL query should be placed into.
+}
