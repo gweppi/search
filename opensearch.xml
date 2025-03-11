@@ -1,6 +1,6 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
   <ShortName>Gwep Search</ShortName>
-  <Description>The Gwep Search Engine unsing DuckDuckGo Bangs and Google Completions.</Description>
+  <Description>The Gwep Search Engine using DuckDuckGo Bangs and Google Completions.</Description>
   <InputEncoding>UTF-8</InputEncoding>
   <Image width="16" height="16" type="image/x-icon">https://example.com/favicon.ico</Image>
   <Url type="text/html" method="get" template="https://search.gwep.dev?q={searchTerms}"/>

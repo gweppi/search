@@ -3,30 +3,40 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link title="Gwep Search" rel="search" type="application/opensearchdescription+xml" href="https://search.gwep.dev/opensearch.xml">
+        <link title="Gwep Search" rel="search" type="application/opensearchdescription+xml" href="http://localhost:3000/opensearch.xml">
         <title>Gwep Search</title>
     </head>
+    <body>
+        <p>The Gwep Search Engine</p>
+    </body>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const query = urlParams.get('q') ?? '';
-        const queryWithoutBang = query.replace(/![a-z]+$/, '').trim();
 
-        const match = query.match(/![a-z]+$/) || ['g'];
-        const tag = match[0].slice(1, match[0].length)
+        if (query) {
+            runQuery();
+        }
+        
+        function runQuery() {
+            const queryWithoutBang = query.replace(/![a-z]+$/, '').trim();
 
-        let bangs = {};
-        fetch('/bang.js')
-            .then(res => res.json())
-            .then(json => bangs = json)
-            .then(() => {
-                const found = bangs.find(el => el['t'] == tag);
-                if (found) {
-                    console.log(found)
-                    const newURL = queryWithoutBang ? found['u'].replace('{{{s}}}', queryWithoutBang) : 'https://' + found['d'];
-                    window.location.replace(newURL);
-                } else {
-                    window.location.replace('https://google.com/search?q=' + queryWithoutBang);
-                }
-            });
+            const match = query.match(/![a-z]+$/) || ['g'];
+            const tag = match[0].slice(1, match[0].length)
+
+            let bangs = {};
+            fetch('/bang.js')
+                .then(res => res.json())
+                .then(json => bangs = json)
+                .then(() => {
+                    const found = bangs.find(el => el['t'] == tag);
+                    if (found) {
+                        console.log(found)
+                        const newURL = queryWithoutBang ? found['u'].replace('{{{s}}}', queryWithoutBang) : 'https://' + found['d'];
+                        window.location.replace(newURL);
+                    } else {
+                        window.location.replace('https://google.com/search?q=' + queryWithoutBang);
+                    }
+                });
+        }
     </script>
 </html>
