@@ -9,7 +9,7 @@
     <body>
         <div class="container">
             <p class="header">The Gwep Search Engine</p>
-            <p id="redirect">Redirecting to [SITE]...</p>
+            <p id="subtext">To use, change your search engine to <span id="subtext-span">https://search.gwep.dev?q=%s</span> in your browser settings.</p>
         </div>
     </body>
     <script>
@@ -26,7 +26,7 @@
             const match = query.match(/![a-z]+$/) || ['g'];
             const tag = match[0].slice(1, match[0].length)
 
-            const redirectPElement = document.getElementById("redirect")
+            const subtextElement = document.getElementById("subtext")
 
             let bangs = {};
             fetch('/bang.js')
@@ -35,11 +35,11 @@
                 .then(() => {
                     const found = bangs.find(el => el['t'] == tag);
                     if (found) {
-                        redirectPElement.innerHTML = redirectPElement.innerHTML.replace("[SITE]", found['s'])
+                        subtextElement.innerHTML = `Redirecting to ${found[s]}...`
                         const newURL = queryWithoutBang ? found['u'].replace('{{{s}}}', queryWithoutBang) : 'https://' + found['d'];
                         window.location.replace(newURL);
                     } else {
-                        redirectPElement.innerHTML = redirectPElement.innerHTML.replace("[SITE]", "Google")
+                        subtextElement.innerHTML = "Redirecting to Google..."
                         window.location.replace('https://google.com/search?q=' + queryWithoutBang);
                     }
                 });
@@ -71,9 +71,14 @@
             margin: auto;
         }
 
-        #redirect {
+        #subtext {
             font-size: small;
             color: gray;
+        }
+
+        #subtext-span {
+            font-style: italic;
+            text-decoration: underline;
         }
     </style>
 </html>
