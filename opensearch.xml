@@ -7,5 +7,5 @@
   <Image width="16" height="16" type="image/x-icon">https://search.gwep.dev/favicon.ico</Image>
   <Url type="text/html" template="https://search.gwep.dev?q={searchTerms}"/>
   <Url type="application/x-suggestions+json" template="https://www.google.com/complete/search?q={searchTerms}&amp;client=chrome"/>
-  <Url type="application/json" rel="suggestions" template="http://my_site/suggest?q={searchTerms}" />
+  <Url type="application/json" rel="suggestions" template="https://www.google.com/complete/search?q={searchTerms}&amp;client=chrome" />
 </OpenSearchDescription>
