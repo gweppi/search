@@ -7,7 +7,10 @@
         <title>Gwep Search</title>
     </head>
     <body>
-        <p>The Gwep Search Engine</p>
+        <div class="container">
+            <p class="header">The Gwep Search Engine</p>
+            <p id="redirect">Redirecting to [SITE]...</p>
+        </div>
     </body>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -23,6 +26,8 @@
             const match = query.match(/![a-z]+$/) || ['g'];
             const tag = match[0].slice(1, match[0].length)
 
+            const redirectPElement = document.getElementById("redirect")
+
             let bangs = {};
             fetch('/bang.js')
                 .then(res => res.json())
@@ -30,13 +35,41 @@
                 .then(() => {
                     const found = bangs.find(el => el['t'] == tag);
                     if (found) {
-                        console.log(found)
+                        redirectPElement.innerHTML = redirectPElement.innerHTML.replace("[SITE]", found['s'])
                         const newURL = queryWithoutBang ? found['u'].replace('{{{s}}}', queryWithoutBang) : 'https://' + found['d'];
                         window.location.replace(newURL);
                     } else {
+                        redirectPElement.innerHTML = redirectPElement.innerHTML.replace("[SITE]", "Google")
                         window.location.replace('https://google.com/search?q=' + queryWithoutBang);
                     }
                 });
         }
     </script>
+    <style>
+        body {
+            margin: auto;
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        p {
+            margin: auto;
+        }
+
+        #redirect {
+            font-size: small;
+            color: gray;
+        }
+    </style>
 </html>
