@@ -10,7 +10,7 @@
     <body>
         <div class="container">
             <p class="header">The Gwep Search Engine</p>
-            <p id="subtext"> </p>
+            <p id="subtext">Loading...</p>
         </div>
     </body>
     <script>
@@ -24,6 +24,7 @@
         } else {
             // Change subtext to description of how to use gwep-search
             subtextElement.innerHTML = `To use, change your search engine to <span id="subtext-span">https://search.gwep.dev?q=%s</span> in your browser settings.`
+            subtextElement.style.visibility = "visible"
         }
         
         function runQuery() {
@@ -40,10 +41,12 @@
                     const found = bangs.find(el => el['t'] == tag);
                     if (found) {
                         subtextElement.innerHTML = `Redirecting to ${found[s]}...`
+                        subtextElement.style.visibility = "visible"
                         const newURL = queryWithoutBang ? found['u'].replace('{{{s}}}', queryWithoutBang) : 'https://' + found['d'];
                         window.location.replace(newURL);
                     } else {
                         subtextElement.innerHTML = "Redirecting to Google..."
+                        subtextElement.style.visibility = "visible"
                         window.location.replace('https://google.com/search?q=' + queryWithoutBang);
                     }
                 });
@@ -78,6 +81,7 @@
         #subtext {
             font-size: small;
             color: gray;
+            visibility: hidden;
         }
 
         #subtext-span {
