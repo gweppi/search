@@ -10,15 +10,20 @@
     <body>
         <div class="container">
             <p class="header">The Gwep Search Engine</p>
-            <p id="subtext">To use, change your search engine to <span id="subtext-span">https://search.gwep.dev?q=%s</span> in your browser settings.</p>
+            <p id="subtext"></p>
         </div>
     </body>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const query = urlParams.get('q') ?? '';
 
+        const subtextElement = document.getElementById("subtext")
+
         if (query) {
             runQuery();
+        } else {
+            // Change subtext to description of how to use gwep-search
+            subtextElement.innerHTML = `To use, change your search engine to <span id="subtext-span">https://search.gwep.dev?q=%s</span> in your browser settings.`
         }
         
         function runQuery() {
@@ -26,8 +31,6 @@
 
             const match = query.match(/![a-z]+$/) || ['g'];
             const tag = match[0].slice(1, match[0].length)
-
-            const subtextElement = document.getElementById("subtext")
 
             let bangs = {};
             fetch('/bang.js')
