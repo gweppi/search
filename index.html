@@ -4,12 +4,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="search" type="application/opensearchdescription+xml" title="Gwep Search" href="https://search.gwep.dev/opensearch.xml" />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="icon" type="image/png" href="/favicon.png">
         <title>Gwep Search</title>
     </head>
     <body>
         <div class="container">
-            <p class="header">The Gwep Search Engine</p>
+            <h3>The Gwep Search Engine</h3>
             <p id="subtext">Loading...</p>
         </div>
     </body>
@@ -23,7 +23,7 @@
             runQuery();
         } else {
             // Change subtext to description of how to use gwep-search
-            subtextElement.innerHTML = `To use, change your search engine to <span id="subtext-span">https://search.gwep.dev?q=%s</span> in your browser settings.`
+            subtextElement.innerHTML = `To use, change your search engine to <button id="command">https://search.gwep.dev?q=%s</button> in your browser settings.`
             subtextElement.style.visibility = "visible"
         }
         
@@ -38,11 +38,11 @@
                 .then(res => res.json())
                 .then(json => bangs = json)
                 .then(() => {
-                    const found = bangs.find(el => el['t'] == tag);
+                    const found = bangs.find(el => el.t == tag);
                     if (found) {
                         subtextElement.innerHTML = `Redirecting to ${found.s}...`
                         subtextElement.style.visibility = "visible"
-                        const newURL = queryWithoutBang ? found['u'].replace('{{{s}}}', queryWithoutBang) : 'https://' + found['d'];
+                        const newURL = queryWithoutBang ? found.u.replace('{{{s}}}', queryWithoutBang) : 'https://' + found.d;
                         window.location.replace(newURL);
                     } else {
                         subtextElement.innerHTML = "Redirecting to Google..."
@@ -51,6 +51,12 @@
                     }
                 });
         }
+
+        // Copy button for search engine URL
+        const commandElement = document.getElementById("command")
+        commandElement.addEventListener("click", () => {
+            navigator.clipboard.writeText(commandElement.innerText)
+        })
     </script>
     <style>
         body {
@@ -65,7 +71,11 @@
             justify-content: center;
 
             text-align: center;
-            font-family: 'Arial', sans-serif;
+            font-family: monospace
+        }
+
+        h3 {
+            margin: auto;
         }
 
         .container {
@@ -74,19 +84,26 @@
             gap: 10px;
         }
 
-        p {
-            margin: auto;
-        }
-
         #subtext {
-            font-size: small;
+            font-style: italic;
             color: gray;
             visibility: hidden;
         }
 
-        #subtext-span {
+        #command {
+            all: unset;
+            color: CanvasText;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            padding-left: 5px;
+            padding-right: 5px;
+            background-color: light-dark(rgb(237, 237, 237), rgb(60, 60, 60));
+            border-radius: 3px;
             font-style: italic;
-            text-decoration: underline;
+        }
+
+        #command:hover {
+            cursor: pointer;
         }
     </style>
 </html>
