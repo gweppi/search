@@ -40,7 +40,7 @@
                 .then(() => {
                     const found = bangs.find(el => el['t'] == tag);
                     if (found) {
-                        subtextElement.innerHTML = `Redirecting to ${found[s]}...`
+                        subtextElement.innerHTML = `Redirecting to ${found.s}...`
                         subtextElement.style.visibility = "visible"
                         const newURL = queryWithoutBang ? found['u'].replace('{{{s}}}', queryWithoutBang) : 'https://' + found['d'];
                         window.location.replace(newURL);
